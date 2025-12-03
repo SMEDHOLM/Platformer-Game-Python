@@ -6,7 +6,7 @@ import subprocess
 
 #Käynnistää testit, luo ikkunan ja pelin
 def main():
-    subprocess.Popen(['python3', 'tester.py'])
+    subprocess.Popen([sys.executable, "tester.py"])
     app = QApplication(sys.argv)
     game = Game()
     game.show()
