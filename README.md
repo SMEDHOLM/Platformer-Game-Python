@@ -1,5 +1,7 @@
 LAUNCH:
 download repository and run python main.py in terminal in root
+LAUNCH:
+download repository and run python main.py in terminal in root
 1. Overview
  This project is a platformer game without using pygame library. Like most platformer games, it is in 2D format. These games
  have various win conditions, such as defeating a boss, killing all enemies, or, in this case, reaching
@@ -80,4 +82,7 @@ Levels are 32×17 text files.
  levels → scoreboard.
 13. Evaluation
  Proud of the work despite flaws caused by library limitations.
-
+![Screenshot_3-12-2025_235052_](https://github.com/user-attachments/assets/c69a3eb5-9d67-4034-bdb1-5b2fea56b584)
+![Screenshot_3-12-2025_23511_](https://github.com/user-attachments/assets/02ef9ee7-1f64-4f64-b322-cc648b48788b)
+![Screenshot_3-12-2025_235113_](https://github.com/user-attachments/assets/6dae27d1-7d10-424e-bbeb-69890ac8da3a)
+![Screenshot_3-12-2025_235128_](https://github.com/user-attachments/assets/c490b071-811b-4dac-b474-f8c385f254ed)
