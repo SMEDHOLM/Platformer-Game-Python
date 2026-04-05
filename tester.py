@@ -1,5 +1,5 @@
 import unittest
-#Testaa, onko tiedostossa olevalla tasolla, ovia ja pelajaa.
+# Test whether each level file contains both a player and a door.
 class TestLevels(unittest.TestCase):
     def test_LEVEL1(self):
         self.assertEqual(self.seacrh_word("LEVELS/LEVEL1", "P", "D"), True)

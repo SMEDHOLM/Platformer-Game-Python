@@ -6,7 +6,7 @@ from  enemy import Enemy
 from lava import Lava
 from player import Player
 
-#Piirtää tason objektit
+# Draws the level objects
 class Level():
     def __init__(self,scene, level_file,game):
         self.game = game
@@ -18,7 +18,7 @@ class Level():
         self.file = level_file
         self.title_map = open(level_file).read().splitlines()
         self.add_item_to_scene()
-    #Käy läpi listan, ja luo objektit, kirjaimien mukaan
+    # Iterate through the map and create objects based on each character
     def add_item_to_scene(self):
         for y in range(len(self.title_map)):
             for x in range(len(self.title_map[0])):

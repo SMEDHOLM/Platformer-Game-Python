@@ -3,7 +3,7 @@ from PyQt5.QtGui import QBrush, QColor
 from PyQt5.QtWidgets import QGraphicsRectItem, QGraphicsSceneHoverEvent, QPushButton
 from PyQt5.QtWidgets import QGraphicsTextItem
 
-#Saa parametriksi tekstin, aluen, nappäin ja tekstin koordinatit ja tekstin kokon
+# Takes button text, scene, button position, text position, and text scale as parameters
 class Button(QGraphicsRectItem, QGraphicsTextItem, QPushButton):
     def __init__(self, text, scene, x, y, tx,ty, scale):
         super().__init__()
@@ -20,17 +20,17 @@ class Button(QGraphicsRectItem, QGraphicsTextItem, QPushButton):
         self.scene.addItem(self.text)
 
         self.setAcceptHoverEvents(True)
-#Kun nappäintä painataan vasemalla hiirennäppäimella, vaihtaa muuttujan arvoa
+# When the button is left-clicked, update the clicked state
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self._clicked = True
 
 
-#Kun kohdistin saapuu näppäimeen, vaihtaa sen väriä
+# When the cursor enters the button, change its color
     def hoverEnterEvent(self, event: 'QGraphicsSceneHoverEvent'):
         self.setBrush(QBrush(QColor(250,0,0)))
 
- # Kun kohdistin poistuu näppäimesta, vaihtaa sen väriä alkuperäiseen
+ # When the cursor leaves the button, restore its original color
     def hoverLeaveEvent(self, event: 'QGraphicsSceneHoverEvent'):
         self.setBrush(QBrush(QColor(200,0,0)))
 

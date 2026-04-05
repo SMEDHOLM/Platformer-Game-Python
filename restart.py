@@ -3,7 +3,7 @@ from PyQt5.QtGui import QBrush, QColor, QImage
 from PyQt5.QtWidgets import QGraphicsRectItem, QGraphicsSceneHoverEvent, QPushButton
 from PyQt5.QtWidgets import QGraphicsTextItem
 
-#Näppäin, joka käynnistää pelin uudestaan
+# Button that restarts the game
 
 class RESTART(QGraphicsRectItem, QGraphicsTextItem, QPushButton):
     def __init__(self, text, scene, level_file, game):

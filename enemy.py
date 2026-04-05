@@ -6,40 +6,40 @@ from  PyQt5.QtCore import QElapsedTimer
 from PyQt5.QtGui import QTransform
 from PyQt5.QtCore import QUrl
 
-#Luo hirviön
+# Creates an enemy
 class Enemy(QGraphicsPixmapItem):
     def __init__(self, x, y, level, scene):
         super().__init__()
         self.scene = scene
         self.level = level
         self.scream = QMediaPlayer()
-        # Asentaa huudon hirviölle
+        # Attach a scream sound to the enemy
         self.scream.setMedia(QMediaContent(QUrl("music/Monster Scream.mp3")))
 
         self.sprite = QPixmap("images/monster.png")
-        #Muutos  koordinateissa
+        # Coordinate velocity changes
         self.dx = 2
         self.dy = 0
         self.on_ground = True
-        #Asentaa kuvan
+        # Set the enemy image
         self.setPixmap(self.sprite)
         self.x = x
         self.y = y
 
-        #Ajastin, joka käunnistää funktion
+        # Timer that triggers the update function
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.updatePosition)
         self.timer.start(50)  # Milliseconds
 
 
 
-#Päivittää hahmon sijantia piirtoaluella
+# Updates the enemy position on the scene
     def updatePosition(self):
         self.x += self.dx
         self.Collision()
         self.setPixmap(self.sprite)
         self.setPos(self.x, self.y)
-# Tarkistaa törmäyksiä. Jos törmäys tapahtuu, peilaa kuvaa ja vaihtaa liikesuuntaa
+# Checks collisions. On contact, mirror the sprite and reverse direction
     def Collision(self):
         i = int(self.y / 32)
         j = int(self.x /32)

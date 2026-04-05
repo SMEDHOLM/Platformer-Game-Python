@@ -13,19 +13,19 @@ from  PyQt5 import QtCore
 class Game(QGraphicsView):
     def __init__(self):
         super().__init__()
-        #Luo piirtoaluen
+        # Create the rendering scene
         self.scene = QtWidgets.QGraphicsScene()
         self.scene.setSceneRect(0, 0, 1024, 544)
         self.setScene(self.scene)
-        #Värittää taustaa
+        # Set the background color
         self.scene.setBackgroundBrush(QBrush(QColor(100, 0, 0)))
 
-        #Luo ajastinta, joka käynistää Update-function 50ms välein
+        # Create a timer that calls the update function every 50 ms
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.Update)
         self.timer.start(50)  # Milliseconds
 
-        #Asentaa taustamusikkia
+        # Configure background music playback
         self.playlist = QMediaPlaylist()
         self.playlist.addMedia(QMediaContent(QUrl("music/Background_music.mp3")))
         self.playlist.setPlaybackMode(QMediaPlaylist.Loop)
@@ -34,12 +34,12 @@ class Game(QGraphicsView):
         self.music.setPlaylist(self.playlist)
         self.music.play()
 
-        #Saa parametriksi tason tiedoston. Asentaa taustakuvaa ja luo Level-olion
+    # Receives a level file, sets the background, and creates the Level object
     def start_level(self, level):
         self.scene.setBackgroundBrush(QBrush(QImage("images/Hell.gif")))
         Level(self.scene, level,self)
 
-        #Piirtää päävalikkoa ja luo näppäimet
+        # Draws the main menu and creates buttons
 
     def displayMainMenu(self):
         Title = QGraphicsTextItem("PLATFORMER")
@@ -50,7 +50,7 @@ class Game(QGraphicsView):
         self.scoreboard_button = Button("SCOREBOARD", self.scene, 400,150,430, 150, 2)
         self.exit_button = Button("Exit", self.scene, 400,200,470, 200, 2)
 
-        #Tarkistaa, jos joku nappeista on painettu
+        # Checks whether any of the buttons have been clicked
     def Update(self):
         if self.start_button._clicked:
             self.Button_clicked(self.start_button, self.displayLevelMenu)
@@ -58,7 +58,7 @@ class Game(QGraphicsView):
             self.Button_clicked(self.exit_button, exit)
         if self.scoreboard_button._clicked:
             self.Button_clicked(self.scoreboard_button, self.displayScoreBoard)
-        # Estää virhen syntymisen, kun seuravat napit, eivät ole päävalikkossa
+        # Prevent errors when the following buttons are not present on the current menu
         try:
             if self.back_button._clicked:
                 self.Button_clicked(self.back_button, self.displayMainMenu)
@@ -71,18 +71,19 @@ class Game(QGraphicsView):
         except:
             pass
 
-# Saa paramtriksi napin ja function, joka suoritetaan, kun nappi painetaan. Vaihtaa nappi ei painettuksi, ettei funktio suoritetaan loputtomasti
+# Receives a button and a callback function, then clears the scene and executes the callback.
+# Resets the button state so the action does not repeat continuously.
     def Button_clicked(self, button, function):
         self.scene.clear()
         function()
         button._clicked= False
-# Sama funktio, mutta saa parametriksi tason tiedoston, joka piirtetään.
+# Same pattern, but it receives a level file to start.
 
     def LevelButton_clicked(self, button, level):
         self.scene.clear()
         self.start_level(level)
         button._clicked= False
-# Piirtää Tasovalikkon ja nappia, joka palauttaa päävalikkoon
+# Draws the level selection menu and a button to return to the main menu
     def displayLevelMenu(self):
         Title = QGraphicsTextItem("Choose Level")
         Title.setScale(3)
@@ -93,7 +94,7 @@ class Game(QGraphicsView):
         self.level2_button = Button("LEVEL2", self.scene, 400, 150, 470, 150, 2)
         self.level3_button = Button("LEVEL3", self.scene, 400, 200, 470, 200, 2)
 
-#Piirtää tulostaulua ja nappia, joka palauttaa päävalikkoon
+# Draws the scoreboard and a button to return to the main menu
 
     def displayScoreBoard(self):
         self.back_button = Button("BACK", self.scene, 0, 0, 0, 0, 2)
@@ -104,7 +105,7 @@ class Game(QGraphicsView):
             self.AddText(line, x,y,3)
             y+=30
 
-#Saa parametriksi tekstin, koordinatit, tekstin kokon ja piirtää ne.
+# Receives text, coordinates, scale, and draws it on the scene.
     def AddText(self, text, x,y, scale):
         Title = QGraphicsTextItem(text)
         Title.setScale(scale)

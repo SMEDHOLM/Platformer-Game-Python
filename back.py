@@ -3,7 +3,7 @@ from PyQt5.QtGui import QBrush, QColor
 from PyQt5.QtWidgets import QGraphicsRectItem, QGraphicsSceneHoverEvent, QPushButton
 from PyQt5.QtWidgets import QGraphicsTextItem
 
-#Näppäin, joka palauttaa päävalikkoon
+# Button that returns the player to the main menu
 
 class Back(QGraphicsRectItem, QGraphicsTextItem, QPushButton):
     def __init__(self, text,scene, game):

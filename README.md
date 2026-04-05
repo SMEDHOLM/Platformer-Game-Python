@@ -1,88 +1,78 @@
-LAUNCH:
-download repository and run python main.py in terminal in root
-LAUNCH:
-download repository and run python main.py in terminal in root
-1. Overview
- This project is a platformer game without using pygame library. Like most platformer games, it is in 2D format. These games
- have various win conditions, such as defeating a boss, killing all enemies, or, in this case, reaching
- a specific point. As the name suggests, platformer gameplay consists of jumping on different
- platforms.
- This implementation has two difficulty levels—medium and advanced. The work was completed at
- the advanced level.
- When the main script is launched, the main menu appears with three buttons: Exit (closes the
- game), Scoreboard (displays the scoreboard), and Start (takes the user to the level selection menu,
- where they can choose between three different levels).
- The game graphics are images downloaded from the internet. Additionally, the game uses various
- sounds: background music and a jump sound.
- 2. User Guide
- The program starts from the main script.
- To close the game, press “EXIT.”
- To view the scoreboard, press “SCOREBOARD.”
- To start the game, press “START.”
- Choose a level, such as “LEVEL1.”
- To return to the main menu, press “BACK.”
- Movement:
- A – move left
- D – move right
- W – jump
- The character cannot jump unless standing on solid ground.
- To stop movement, press the opposite direction key.
- To move faster, hold the movement key.
- Win condition: reaching the door. A timer shows microseconds. After reaching the door, a menu
- appears displaying the score and notifying if a new record is achieved.
-If the player touches lava or collides with a monster, they die, and a menu appears.
- If the player is above a monster, the monster dies and the player jumps.
- 3. External Libraries
- The only external library used is PyQt5. Images, drawing, and music playback use its methods.
- 4. Program Structure
- Each script (except main) contains a class.
- Tester – checks if the level has both player and door.
- Main – runs tests, creates Game, calls displayMainMenu.
- Game – handles menus, key updates, starts levels.
- Button – draws interactive buttons.
- Level – loads level file and creates objects based on characters.
- Lava, Door – place images.
- Enemy – movement and collision logic.
- Player – movement, collisions, win/loss detection, scoreboard handling.
- Restart, Back, Exit – button classes.
- 5. Algorithms
- Important functions:
- move – applies dx, dy to coordinates.
- CollisionX / CollisionY – converts pixel coordinates to grid and detects block collisions.
- OnGround – checks if player stands on a block.
- add_item_to_scene – generates objects based on level file characters.
- 6. Data Structures
- Lists were used because they are simple and allow modification.
- 7. Files
- Game uses PNG, GIF, MP3, and TXT.
-Levels are 32×17 text files.
- Scoreboard is a TXT with entries for best times.
- 8. Testing
- Testing performed by gameplay. Walls prevent falling out of the level. Occasional crashes occur.
- 9. Known Issues
- Player sometimes enters walls or moves incorrectly.
- Player doesn’t always jump on monsters.
- Extra button classes should be refactored.
- Graphics from internet, no animations.
- Buttons do not change color on text hover.
- No background image.
- 10. Strengths and Weaknesses
- Strengths:
- 1. Difficulty hides small level size.
- 2. Good background music.
- 3. Levels can be edited without coding.
- Weaknesses:
- 1. Occasional crashes.
- 2. Character movement bugs.
- 3. Jump inconsistency on monsters.
- 11. Deviations
- Collision methods required much more time.
- 12. Workflow
- Level → player movement → enemies/lava → door → audio/graphics → menus → timer → extra
- levels → scoreboard.
-13. Evaluation
- Proud of the work despite flaws caused by library limitations.
-![Screenshot_3-12-2025_235052_](https://github.com/user-attachments/assets/c69a3eb5-9d67-4034-bdb1-5b2fea56b584)
-![Screenshot_3-12-2025_23511_](https://github.com/user-attachments/assets/02ef9ee7-1f64-4f64-b322-cc648b48788b)
-![Screenshot_3-12-2025_235113_](https://github.com/user-attachments/assets/6dae27d1-7d10-424e-bbeb-69890ac8da3a)
-![Screenshot_3-12-2025_235128_](https://github.com/user-attachments/assets/c490b071-811b-4dac-b474-f8c385f254ed)
+# Platformer Game (PyQt5)
+
+A 2D platformer built using PyQt5 instead of Pygame. The game includes level selection, hazards, enemies, a win condition, and simple record tracking.
+
+## Overview
+
+This project is a classic platformer-style game implemented with PyQt5 graphics and audio. Players navigate a character through tile-based levels, avoid hazards, and reach the exit door to win. The game includes:
+
+- Main menu with Start, Scoreboard, and Exit
+- Level selection menu for multiple levels
+- Enemies and lava hazards
+- Timer-based scoring and scoreboard tracking
+- Restart and Back menu controls
+
+## Requirements
+
+- Python 3.8+
+- PyQt5
+
+Install dependencies with:
+
+```bash
+python -m pip install pyqt5
+```
+
+## Run the Game
+
+From the root directory:
+
+```bash
+python main.py
+```
+
+## Controls
+
+- `A` — move left
+- `D` — move right
+- `W` — jump
+- Mouse click — select menu buttons
+
+## Gameplay
+
+- Reach the door to win the level.
+- The timer tracks how long it takes to finish.
+- Touching lava or colliding with an enemy from the side results in death.
+- Jumping on top of an enemy defeats it and makes the player bounce.
+- After winning or dying, use Restart or Back to continue.
+
+## Project Structure
+
+- `main.py` — launches the application and starts the test runner
+- `game.py` — handles menus, input polling, and level startup
+- `level.py` — loads level text files and creates scene objects
+- `player.py` — player movement, collision detection, and scoring
+- `enemy.py` — enemy movement and collision behavior
+- `lava.py`, `door.py` — static hazard and exit objects
+- `button.py`, `back.py`, `restart.py`, `exit.py` — interactive menu buttons
+- `tester.py` — validates that each level contains required objects
+- `SCOREBOARD` — plain text scoreboard file
+- `LEVELS/` — level layout files
+- `images/`, `music/` — game assets
+
+## Notes
+
+- Levels are loaded from simple text files in `LEVELS/`.
+- The scoreboard is saved to the `SCOREBOARD` text file.
+- Audio is played using PyQt5 multimedia.
+- The game uses static images rather than frame-based animation.
+
+## Known Issues
+
+- Some collision edge cases may cause unintended movement.
+- Jump behavior can be inconsistent on enemies.
+- The current button implementation is basic and could be refactored.
+
+## Screenshots
+
+Screenshots are available in the `SCREENSHOTS/` folder.

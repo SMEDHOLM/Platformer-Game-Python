@@ -4,7 +4,7 @@ from game import Game
 import subprocess
 
 
-#Käynnistää testit, luo ikkunan ja pelin
+# Starts the tests, creates the application window, and launches the game
 def main():
     subprocess.Popen([sys.executable, "tester.py"])
     app = QApplication(sys.argv)

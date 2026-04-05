@@ -21,33 +21,33 @@ class Player(QGraphicsPixmapItem):
         self.scene = scene
         self.scene_height = scene_height
         self.level = level
-#Oikealle liikkuva kuva
+# Sprite for moving right
         self.rsprite = QPixmap("images/ghost.png")
         self.trans = QTransform()
-#Vasemmallle liikkuva kuva
+# Sprite for moving left
         self.lsprite = self.rsprite.transformed(self.trans.scale(-1, 1))
         self.setPixmap(self.rsprite)
 
         self.dx =0
         self.dy = 0
-#Asentaa pelajan paikalle
+# Set the player's starting position
         self.x = self.level.player_x_location
         self.y = self.level.player_y_location
         self.setPos(self.x, self.y)
-#Ajastin sijainnin päivittämiseen
+# Timer for updating position
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.Update)
         self.timer.start(50)  # Milliseconds
 
         self.jump_sound = QMediaPlayer()
         self.jump_sound.setMedia(QMediaContent(QUrl("music/Jump.mp3")))
-# Ajastin ajan päivittämiseen päivittämiseen
+# Timer for updating elapsed time
         self.g_timer = QtCore.QTimer()
         self.g_timer.timeout.connect(self.Update_TIME)
         self.g_timer.start(1)  # Milliseconds
         self.time = 0
 
-# Pelajan ohjaminen
+# Player input handling
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_D:
             self.dx += 6
@@ -67,7 +67,7 @@ class Player(QGraphicsPixmapItem):
             if self.dy < -16:
                 self.dy = - 16
 
-#Päivittää pelajan sijantia
+# Updates the player's position
     def Update(self):
         self.setFocus()
         if not self.OnGround():
@@ -83,7 +83,7 @@ class Player(QGraphicsPixmapItem):
             self.y = self.scene_height - 32
         self.move()
         self.setPos(self.x, self.y)
-#Törmykset X suunnassa
+# Collision handling in the X direction
     def CollisionX(self):
         i = int(self.y / 32)
         j = int(self.x / 32)
@@ -100,7 +100,7 @@ class Player(QGraphicsPixmapItem):
                 j += 1
             i += 1
 
-    # Törmykset Y suunnassa
+    # Collision handling in the Y direction
     def CollisionY(self):
         i = int(self.y / 32)
         j = int(self.x / 32)
@@ -118,7 +118,7 @@ class Player(QGraphicsPixmapItem):
 
                 j += 1
             i += 1
-#Tarkista, ono pelaja pinnalla
+# Check whether the player is standing on solid ground
     def OnGround(self):
         i = int(self.y / 32)
         j = int(self.x / 32)
@@ -131,20 +131,20 @@ class Player(QGraphicsPixmapItem):
             return True
         else:
             return False
-#Liikutta pelajaa
+# Move the player according to current velocity
     def move(self):
         self.x += self.dx
         self.y+= self.dy
-#Tarkistaa objektit, jotka ovat kosketuksessa pelajaan
+# Checks objects that are colliding with the player
     def Collision_with_objects(self):
         for enemy in self.level.enemies:
-            #Hirviö tappaminen, kun pelaja on ylempi
+            # Enemy defeat when the player lands above it
             if enemy in self.collidingItems() and self.y < enemy.y:
-                #Hirviö huutaa
+                # Play enemy scream sound
                 if enemy.scream.state() == QMediaPlayer.PlayingState:
                     enemy.scream.stop()
                 enemy.scream.play()
-                # Käynistää hypyn ääniä
+                # Trigger the jump sound effect
                 if self.jump_sound.state() == QMediaPlayer.PlayingState:
                     self.jump_sound.stop()
                 self.jump_sound.play()
@@ -154,21 +154,21 @@ class Player(QGraphicsPixmapItem):
                     self.dy = - 27
                 self.y += self.dy
                 self.scene.removeItem(enemy)
-                #Poistaa pelajan ja käynistä kuoleman funktion
+                # Remove the player and trigger the death sequence
             elif enemy in self.collidingItems() and self.y >= enemy.y:
                 self.scene.removeItem(self)
                 self.DIED()
-        #Tarksitaa, onko pelaja kosketuksessa lavan kanssa
+        # Check whether the player is colliding with lava
         for lava in self.level.lavas:
             if lava in self.collidingItems():
                 self.scene.removeItem(self)
                 self.DIED()
-        # Tarksitaa, onko pelaja kosketuksessa oven kanssa
+        # Check whether the player is colliding with the door
         for door in self.level.door:
             if door in self.collidingItems():
                 self.scene.removeItem(self)
                 self.WON()
-#Piirrtää valikkon, jos pelaja kuollut
+# Draw the menu shown when the player dies
     def DIED(self):
         self.scene.clear()
         LOSE = QGraphicsTextItem("YOU ARE DEAD")
@@ -181,7 +181,7 @@ class Player(QGraphicsPixmapItem):
 
         self.exit_button = EXIT("EXIT", self.scene)
 
-    # Piirrtää valikkon, jos pelaja kosketuksessa oveen
+    # Draw the menu shown when the player reaches the door
     def WON(self):
         self.scene.clear()
         text = QGraphicsTextItem("YOU WON")
@@ -202,7 +202,7 @@ class Player(QGraphicsPixmapItem):
 
 
 
-#Piirtää aikaa
+# Render the elapsed time on screen
     def Update_TIME(self):
         try:
             self.scene.removeItem(self.stime)
@@ -213,7 +213,7 @@ class Player(QGraphicsPixmapItem):
         self.stime.setScale(3)
         self.stime.setPos(0, 0)
         self.scene.addItem(self.stime)
-# Tarkistaa, oliko tehtty uusi ennätys
+# Check whether the player achieved a new high score
     def Check_ScoreBoard(self):
 
         scoreboard_list = open("SCOREBOARD").read().splitlines()
@@ -228,7 +228,7 @@ class Player(QGraphicsPixmapItem):
                 return i+3
         else:
             return None
-# Vaihtaa, ennätyksen tideostossa
+# Update the scoreboard with a new record time
     def Change_Score_Board(self, index):
         scoreboard_list = open("SCOREBOARD").read().splitlines()
         scoreboard_list[index] = str(self.time)

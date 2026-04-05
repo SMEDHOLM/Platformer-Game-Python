@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QGraphicsPixmapItem
-#Lava, joka ei tee mitään
+# Lava object with no active behavior
 class Lava(QGraphicsPixmapItem):
     def __init__(self, x, y, level, scene):
         super().__init__()
